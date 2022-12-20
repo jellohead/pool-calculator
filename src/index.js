@@ -2,6 +2,18 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import './index.css';
 
+
+// Pool holds info about physical nature of the pool 
+// such as size and construction materials
+
+class Pool extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { value: '0' };
+
+    }
+}
+
 class FreeChlorine extends React.Component {
     constructor(props) {
         super(props);
