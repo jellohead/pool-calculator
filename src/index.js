@@ -9,7 +9,8 @@ import './index.css';
 class Pool extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { value: '0' };
+        this.state = { value: 0 };
+        this.volume = { volume: 14500 };
 
     }
 }
@@ -47,3 +48,28 @@ root.render(
         <FreeChlorine />
     </React.StrictMode>
 )
+
+/*
+     * BLEACH CALCULATION STEPS *
+     * 1. Convert desired concentration of Chlorine from ppm or mg/L to mg/mL
+     * 2. Convert concentration of Chlorine Volume in mL to desired volume in mL
+     * 	  Desired volume in mL = Desired volume amount * Desired unit in mL
+     * 3. Calculate available Chlorine in mg/mL
+     * 4. Calculate Amount of bleach to add
+     * 5. Calculate final result 
+     * 6. Calculate amount of water
+     * 
+     * 1 oz of 5.25% sodium hpypochlride in chlorine bleach
+     * in 1 gal of water yields 400 ppm chlorine
+     * 1% = 10,000 ppm
+     * .01
+     * 1,000,000
+     * 
+     * Bleach Solution
+     * 5.25-6.15% sodium hypochlorite
+     * Dilution Chlorine (ppm)
+     * None 52,500-61,500
+     * 1:10 or 1 ½ cup:1 gallon 5,250-6,150
+     * 1:20 or ¾ cup:1 gallon 2,625-3,075
+     * 1:100 or ¼ cup:1 gallon 525-615
+     */ 

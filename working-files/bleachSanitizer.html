@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!-- 
+* Created by Gary Fisk; Created March, 2016
+* License: Creative Commons Attribution 4.0 International
+* https://creativecommons.org/licenses/by/4.0/
+ -->
+<html>
+
+<head>
+    <title>Top-Down Brew: Bleach sanitation calculator</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <link href="topdownbrew.css" rel="stylesheet" type="text/css">
+    <script>
+        //Documentation: See http://water.me.vccs.edu/courses/env211/lesson8_4.htm for the dilution formula
+        function gallonsToLiters(gallons) { return gallons * 3.78541178; }
+        function litersToFluidOunces(liters) { return liters * 33.814 };
+        function litersToMilliliters(liters) { return liters * 1000 };
+        function calculate() {
+            //Create variables and obtain data values from the form.
+            var bleachpercent = parseFloat(document.entry.bleach.value);
+            var targetppm = parseFloat(document.entry.targetppm.value);
+            var targetvolume = parseFloat(document.entry.volume.value);
+            var output = "<b>Results:</b> ";
+            //Warning for high concentrations
+            if (targetppm > 200) alert("Warning: This concentration exceeds the maximum federal recommendation of 200 ppm.");
+            //Get unit type from the radio buttons and assign the value to the unit variable; 0 = US, 1 = metric
+            var unitInput = document.getElementById("unit"); //Gets the unit type from the form "unit"
+            for (var i = 0; i < 2; i++) { // Loop to determine which radio button is checked
+                if (unitInput[i].checked) { var unit = unitInput.elements[i].value; } //Radio button value is assigned to unit variable
+            }
+            //Tests for US or metric units; Unit=0 is US; Unit = 1 represents metric
+            if (unit == 0) { targetvolume = gallonsToLiters(targetvolume); } // Convert targetvolume gallons to liters
+            //Convert the bleach percentage to ppm
+            var bleachppm = bleachpercent * (1000000 / 100);
+            //Calculate the needed bleach volume using the formula M1V1 = M2V2, solved for V1
+            var bleachvolume = (targetppm * targetvolume) / bleachppm;
+            //Convert bleachvolume from liters to milliliters, fluid ounces, and tablespoons; round to 0.1
+            //var bleachmilliliters = Math.round((bleachvolume * 1000)*10)/10; //Converts liters to milliliters
+            //var bleachounces = Math.round((bleachmilliliters * 0.033814)*10)/10; //Converts milliliters to fluid ounces
+            //Create output string
+            var output = output + Math.round(litersToFluidOunces(bleachvolume) * 10) / 10 + " fluid ounces (" + Math.round(litersToMilliliters(bleachvolume) * 10) / 10 + " milliliters) of bleach are needed to reach the target concentration of " + targetppm + " ppm";
+            //Output to web page
+            document.getElementById("results").innerHTML = output;
+        }
+    </script>
+</head>
+
+<body>
+    <h1>&#127866; Top-down Brew: Bleach sanitizer</h1>
+    <p><b>Purpose:</b> Calculate the proper volume of bleach needed for a sanitation solution. </p>
+    <p>
+    <form name="entry">
+        <input type="number" size="4" maxlength="5" value=6.0 step="0.5" name="bleach" id="bleach"><label for="bleach">%
+            bleach concentration percentage</label>
+        <br />
+        <input type="number" size="4" maxlength="5" value=75 step="25" name="targetppm" id="targetppm"><label
+            for="targetppm"> Desired concentration in ppm (50 to 100 ppm recommended; Maximum: 200 ppm)</label>
+        <br />
+        <input type="number" size="4" maxlength="5" value=5.0 step="1.0" name="volume" id="volume"><label for="volume">
+            Solution volume in gallons or liters</label>
+        <br>
+        <input type="button" value="Calculate" onclick="calculate()" />
+    </form>
+    <form id="unit">
+        <input type="radio" value="0" name="unit" checked id="US"><label for="US"> US units (gallons)</label>
+        <input type="radio" value="1" name="unit" id="metric"><label for="metric"> Metric units (liters)</label>
+    </form>
+    </p>
+    <p id="results" class="results"><b>Results:</b> *** Waiting for results ***</p>
+    <h2>Notes:</h2>
+    <p>Bleach (sodium hypochlorite) is a very cheap and effective sanitizer, but it has a bad reputation due to the
+        strong odor and flavor. A common problem with bleach is that homebrewers use way too much. Older
+        recommendations, such as one to two ounces per five gallons (Papazian, 1984, p. 22), may have been good advice a
+        few decades ago. However, this amount could be overkill with today's more highly concentrated bleach.</p>
+    <p>The flavor and odor problems associated with using bleach as a sanitizer can be greatly decreased by using the
+        proper concentration needed for effective sanitation. Small amounts are needed to make an effective sanitizing
+        solution. The general recommendation is 50 to 100 parts per million (ppm) for sanitizing equipment that will
+        come into contact with food. Stronger concentrations such as 100 to 200 ppm are sometimes used in conditions
+        with heavy soiling or organic matter, such as countertop surfaces. Concentrations over 200 ppm are considered to
+        be unsafe for food uses. </p>
+    <p>This calculator uses the bleach concentration percentage to determine the amount needed to make a solution at a
+        specific ppm concentration. The basic formula is M<sub>1</sub>V<sub>1</sub> = M<sub>2</sub>V<sub>2</sub>.
+        Rearranaging this formula for the needed bleach yields the following formula: bleachvolume = (targetppm *
+        targetvolume) / bleachppm. </p>
+    <p>Charlie Talley of Five Star Chemicals recommends adding small amounts of vinegar to bleach-based sanitizing
+        solutions to slightly lower the pH to about 5 or 6 (<a
+            href="http://media.libsyn.com/media/basicbrewing/bbr03-29-07.mp3">podcast from Better Brewing Radio</a>).
+        The lower pH helps bleach to be more effective at a lower concentration (see figure 1 from this <a
+            href="https://ucfoodsafety.ucdavis.edu/sites/g/files/dgvnsk7366/files/inline-files/26437.pdf">Food
+            Technology Fact Sheet</a>). Talley's recommendation is for one fluid ounce of bleach and one ounce of
+        vinegar in five gallons of sanitizing solution. You might need more vinegar to reach a pH of 5 to 6 if your
+        water is somewhat alkaline. A drawback with Talley's idea is that mixing bleach and vinegar <a
+            href="https://www.thoughtco.com/mixing-bleach-and-vinegar-609281">creates a toxic chlorine gas</a>. The risk
+        seems small at these low concentrations, but caution is still encouraged. Do not mix bleach and vinegar directly
+        with each other. Use this combination outdoors or in a well-ventilated area. Skip the vinegar if you really want
+        to be cautious. </p>
+    <p>Weak bleach sanitizer solutions can be described as no-rinse in the sense that it is safe to use without rinising
+        at these concentrations. This is not, however, a good idea in regard to flavor. My experience is that the
+        residue from these low concentration solutions can still be tasted in the final product (cholorophenols - an
+        unpleasant hefeweizen-like phenolic flavor). To avoid off flavors, rinse the sanitizing solution from equipment
+        with chlorinated tap water or water that has been boiled to kill bacteria. Rinsing with city tap water that is
+        chlorinated at 1 ppm seems to work well. If you use the recommended concentration of 50 to 100 ppm it should not
+        be necessary to "triple-rinse" like some older sources suggest. </p>
+    <hr />
+    <p><a href="index.html">Go back</a> to the calculator list.</p>
+    <p><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0
+            International License</a> that allows sharing, adapting, and remixing.</p>
+</body>
+
+</html>
