@@ -72,4 +72,8 @@ root.render(
      * 1:10 or 1 ½ cup:1 gallon 5,250-6,150
      * 1:20 or ¾ cup:1 gallon 2,625-3,075
      * 1:100 or ¼ cup:1 gallon 525-615
+     * 
+     * bleachPPM = bleachPercent * 1000000 / 100
+     * bleachVolume = (targetPercent * poolVolume) / bleachPPM 
+     * need to account for volume unit conversions to get oz to add
      */ 
