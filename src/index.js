@@ -9,22 +9,46 @@ import './index.css';
 class Pool extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { value: 0 };
-        this.volume = { volume: 14500 };
-
+        this.state = {
+            temperature: 77,
+            poolVolume: 14500,
+            poolMaterial: 'plaster',
+            chlorineSource: 'Salt Water Generator'
+        };
     }
+
+    render() {
+        return (
+            <div>Pool data goes in this block
+            </div>
+        );
+        // html layout portion goes in here
+    };
 }
 
 class FreeChlorine extends React.Component {
     constructor(props) {
         super(props);
         this.state = { value: '0' };
+        this.bleachPercent = { value: 1.25 };
+        this.desiredChange = { desiredChange: 2 };
+        this.chlorineJugSize = { chlorineJugSize: 128 }
 
         // this.handleChange = this.handleChange.bind(this);
         // this.handleSubmit = this.handleSubmit.bind(this);
         // this.specLow = this.specLow.bind(this);
         // this.specHigh = this.specHigh.bind(this);
     }
+
+    bleachVolume(bleachPercent) {
+        let bleachPPM = bleachPercent * 1000000 / 100;
+        return 2 * 14500 / bleachPPM * 128;
+        // return desiredChange * poolVolume / bleachPPM;
+
+    }
+    // * bleachPPM = bleachPercent * 1000000 / 100
+    //  * bleachVolume = (desiredChange * poolVolume) / bleachPPM 
+    //  * need to account for volume unit conversions to get oz to add
 
     render() {
         return (
@@ -33,8 +57,8 @@ class FreeChlorine extends React.Component {
                     <input type="text" name="current" placeholder="current" />
                     {/* <input type="text" name = "current" value={this.state.value} onChange={this.handleChange} /> */}
                     <input type="text" name="goal" placeholder="goal"></input>
-                    <div />Add 0 of 6 weight % bleach. </div >
-                <div>Jug size 96 oz. or add 0 by weight or 0 by volume of trichlor.</div>
+                    <div />Add {this.bleachVolume(1.25)} ounces of {this.bleachPercent.value}% bleach. </div >
+                <div>Jug size = {this.chlorineJugSize.chlorineJugSize} oz. or add 0 by weight or 0 by volume of trichlor.</div>
                 <div>Note: Dichlor and trichlor add CYA and lower pH.Cal - hypo adds CH.
                 </div >
             </div>);
@@ -45,6 +69,7 @@ class FreeChlorine extends React.Component {
 const root = ReactDOM.createRoot(document.querySelector('#root'));
 root.render(
     <React.StrictMode>
+        <Pool />
         <FreeChlorine />
     </React.StrictMode>
 )
