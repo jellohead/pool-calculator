@@ -29,15 +29,21 @@ class Pool extends React.Component {
 class FreeChlorine extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { value: '0' };
-        this.bleachPercent = { value: 1.25 };
-        this.desiredChange = { desiredChange: 2 };
-        this.chlorineJugSize = { chlorineJugSize: 128 }
+        this.state = {
+            value: '',
+            bleachPercent: 1.25,
+            desiredChange: 2,
+            chlorineJugSize: 128
+        };
 
         // this.handleChange = this.handleChange.bind(this);
         // this.handleSubmit = this.handleSubmit.bind(this);
         // this.specLow = this.specLow.bind(this);
         // this.specHigh = this.specHigh.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({ value: event.target.value });
     }
 
     bleachVolume(bleachPercent) {
