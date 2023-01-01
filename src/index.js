@@ -26,6 +26,12 @@ class FreeChlorine extends React.Component {
         // this.specHigh = this.specHigh.bind(this);
     }
 
+    bleachVolume = () => {
+        // * bleachPPM = bleachPercent * 1000000 / 100
+        // * bleachVolume = (targetPercent * poolVolume) / bleachPPM 
+        // * need to account for volume unit conversions to get oz to add
+    }
+
     render() {
         return (
             <div className="free-clorine"> Free Chlorine
