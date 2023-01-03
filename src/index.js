@@ -9,8 +9,40 @@ import './index.css';
 class Pool extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { value: 0 };
-        this.volume = { volume: 14500 };
+        this.state = {
+            value: 0,
+            poolVolume: 14500,
+            material: 'plaster'
+        };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleChangePoolMaterial = this.handleChangePoolMaterial.bind(this);
+    }
+
+
+    handleChange(event) {
+        console.log('this is ', this);
+        this.setState({ poolVolume: event.target.value });
+    }
+    handleChangePoolMaterial(event) {
+        console.log('this is ', this);
+        this.setState({ material: event.target.value });
+    }
+
+    render() {
+        return (
+            <form>
+                <label>Pool Volume:
+                    <input type='number' name='Pool Volume' value={this.state.poolVolume} onChange={this.handleChange} />
+                </label>
+                <label for='pool-material'>Pool Material:</label>
+                <select name='poolMaterial' id='pool-material-select' value={this.state.material} onChange={this.handleChangePoolMaterial} >
+                    <option value="plaster">plaster</option>
+                    <option value="fiberglass">fiberglass</option>
+                    <option value="vinyl">vinyl</option>
+                </select>
+            </form>
+
+        )
 
     }
 }
@@ -18,7 +50,14 @@ class Pool extends React.Component {
 class FreeChlorine extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { value: '0' };
+        this.state = {
+            value: '0',
+            specLow: 2,
+            specHigh: 4,
+            bleachPercent: 1.25,
+            targetPPM: 2,
+            bleachJugSize: 128
+        };
 
         // this.handleChange = this.handleChange.bind(this);
         // this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,8 +66,9 @@ class FreeChlorine extends React.Component {
     }
 
     bleachVolume = () => {
-        // * bleachPPM = bleachPercent * 1000000 / 100
-        // * bleachVolume = (targetPercent * poolVolume) / bleachPPM 
+        let bleachVolume
+        let bleachPPM = this.bleachPercent * 1000000 / 100
+        return bleachVolume = (this.state.targetPPM * this.state.poolVolume) / bleachPPM
         // * need to account for volume unit conversions to get oz to add
     }
 
@@ -39,7 +79,7 @@ class FreeChlorine extends React.Component {
                     <input type="text" name="current" placeholder="current" />
                     {/* <input type="text" name = "current" value={this.state.value} onChange={this.handleChange} /> */}
                     <input type="text" name="goal" placeholder="goal"></input>
-                    <div />Add 0 of 6 weight % bleach. </div >
+                    <div />Add {this.bleachVolume} of {this.bleachPercent}% bleach. </div >
                 <div>Jug size 96 oz. or add 0 by weight or 0 by volume of trichlor.</div>
                 <div>Note: Dichlor and trichlor add CYA and lower pH.Cal - hypo adds CH.
                 </div >
@@ -51,6 +91,7 @@ class FreeChlorine extends React.Component {
 const root = ReactDOM.createRoot(document.querySelector('#root'));
 root.render(
     <React.StrictMode>
+        <Pool />
         <FreeChlorine />
     </React.StrictMode>
 )
