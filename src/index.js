@@ -41,7 +41,6 @@ class Pool extends React.Component {
                     <option value="vinyl">vinyl</option>
                 </select>
             </form>
-
         )
 
     }
@@ -55,20 +54,29 @@ class FreeChlorine extends React.Component {
             specLow: 2,
             specHigh: 4,
             bleachPercent: 1.25,
-            targetPPM: 2,
+            currentPPM: 2,
+            targetPPM: 4,
             bleachJugSize: 128
         };
+        this.handleChangeCurrentPPM = this.handleChangeCurrentPPM.bind(this);
+        this.handleChangeTargetPPM = this.handleChangeTargetPPM.bind(this);
+    }
 
-        // this.handleChange = this.handleChange.bind(this);
-        // this.handleSubmit = this.handleSubmit.bind(this);
-        // this.specLow = this.specLow.bind(this);
-        // this.specHigh = this.specHigh.bind(this);
+    handleChangeCurrentPPM(event) {
+        console.log('this is ', this);
+        this.setState({ currentPPM: event.target.value });
+    }
+    handleChangeTargetPPM(event) {
+        console.log('this is ', this);
+        this.setState({ targetPPM: event.target.value });
     }
 
     bleachVolume = () => {
-        let bleachVolume
-        let bleachPPM = this.bleachPercent * 1000000 / 100
-        return bleachVolume = (this.state.targetPPM * this.state.poolVolume) / bleachPPM
+        let bleachVolume;
+        let bleachPPM = this.bleachPercent * 1000000 / 100;
+        bleachVolume = (this.state.targetPPM - this.state.currentPPM) * this.state.poolVolume / bleachPPM;
+        console.log(bleachVolume)
+        return bleachVolume;
         // * need to account for volume unit conversions to get oz to add
     }
 
@@ -76,13 +84,12 @@ class FreeChlorine extends React.Component {
         return (
             <div className="free-clorine"> Free Chlorine
                 < div >
-                    <input type="text" name="current" placeholder="current" />
-                    {/* <input type="text" name = "current" value={this.state.value} onChange={this.handleChange} /> */}
-                    <input type="text" name="goal" placeholder="goal"></input>
-                    <div />Add {this.bleachVolume} of {this.bleachPercent}% bleach. </div >
-                <div>Jug size 96 oz. or add 0 by weight or 0 by volume of trichlor.</div>
-                <div>Note: Dichlor and trichlor add CYA and lower pH.Cal - hypo adds CH.
+                    <input type="text" name="currentPPM" value={this.state.currentPPM} onChange={this.handleChangeCurrentPPM} />
+                    <input type="text" name="targetPPM" value={this.state.targetPPM} onChange={this.handleChangeTargetPPM} />
+                    <div> Add {this.bleachVolume} of {this.state.bleachPercent}% bleach.</div>
                 </div >
+                <div>Jug size 96 oz. or add 0 by weight or 0 by volume of trichlor.</div>
+                <div>Note: Dichlor and trichlor add CYA and lower pH.Cal - hypo adds CH.</div >
             </div>);
     }
 }
@@ -96,31 +103,3 @@ root.render(
     </React.StrictMode>
 )
 
-/*
-     * BLEACH CALCULATION STEPS *
-     * 1. Convert desired concentration of Chlorine from ppm or mg/L to mg/mL
-     * 2. Convert concentration of Chlorine Volume in mL to desired volume in mL
-     * 	  Desired volume in mL = Desired volume amount * Desired unit in mL
-     * 3. Calculate available Chlorine in mg/mL
-     * 4. Calculate Amount of bleach to add
-     * 5. Calculate final result 
-     * 6. Calculate amount of water
-     * 
-     * 1 oz of 5.25% sodium hpypochlride in chlorine bleach
-     * in 1 gal of water yields 400 ppm chlorine
-     * 1% = 10,000 ppm
-     * .01
-     * 1,000,000
-     * 
-     * Bleach Solution
-     * 5.25-6.15% sodium hypochlorite
-     * Dilution Chlorine (ppm)
-     * None 52,500-61,500
-     * 1:10 or 1 ½ cup:1 gallon 5,250-6,150
-     * 1:20 or ¾ cup:1 gallon 2,625-3,075
-     * 1:100 or ¼ cup:1 gallon 525-615
-     * 
-     * bleachPPM = bleachPercent * 1000000 / 100
-     * bleachVolume = (targetPercent * poolVolume) / bleachPPM 
-     * need to account for volume unit conversions to get oz to add
-     */ 
