@@ -72,11 +72,12 @@ class FreeChlorine extends React.Component {
     }
 
     bleachVolume = () => {
-        let bleachVolume;
+        let bleachAmount;
         let bleachPPM = this.bleachPercent * 1000000 / 100;
-        bleachVolume = (this.state.targetPPM - this.state.currentPPM) * this.state.poolVolume / bleachPPM;
-        console.log(bleachVolume)
-        return bleachVolume;
+        console.log(bleachPPM, bleachAmount);
+        bleachAmount = (this.state.targetPPM - this.state.currentPPM) * this.state.poolVolume / bleachPPM;
+        console.log(bleachAmount);
+        return bleachAmount;
         // * need to account for volume unit conversions to get oz to add
     }
 
