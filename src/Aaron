@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function Pool(props) {
+function PoolVolume(props) {
     const { volume, onVolumeChange } = props;
 
     function calculateVolume(l, w, h) {
