@@ -1,0 +1,7 @@
+/* index.css*/
+
+/* box around grouped analysis section */
+.analysis {
+    border: solid;
+    border-color: black;
+}
