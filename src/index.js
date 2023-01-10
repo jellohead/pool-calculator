@@ -6,8 +6,8 @@ import '../src/index.css';
 function FreeChlorine(props) {
     const { poolVolume } = props;
 
-    // const [specLow, setSpecLow] = useState(2);
-    // const [specHigh, setSpecHigh] = useState(4);
+    const [specLow, setSpecLow] = useState(7.2);
+    const [specHigh, setSpecHigh] = useState(8.0);
     const [bleachPercent, setBleachPercent] = useState(1.25);
     const [currentPPM, setCurrentPPM] = useState(2);
     const [targetPPM, setTargetPPM] = useState(4);
@@ -40,13 +40,14 @@ function FreeChlorine(props) {
         return bleachAmount;
     }
 
-    function numberOfJugs(bleachVolume, bleachJugSize) {
-        return Math.ceil(bleachVolume() / bleachJugSize);
-    }
+    // function numberOfJugs() {
+    //     return Math.ceil(this.state.bleachVolume() / this.state.bleachJugSize);
+    // }
 
     return (
         <div className="analysis"> Free Chlorine
             < div >
+                <div>Spec: {specLow} ppm - {specHigh} ppm.</div>
                 <label>Current PPM</label>
                 <input
                     type="text"
@@ -78,11 +79,76 @@ function FreeChlorine(props) {
                 </div>
                 <div> Add {bleachVolume()} ounces of {bleachPercent}% bleach.</div>
             </div >
+            {/* <div> You will need {numberOfJugs} jug{Math.ceil(bleachVolume() / bleachJugSize) === 1 ? '' : 's'} of bleach.</div > */}
             <div> You will need {Math.ceil(bleachVolume() / bleachJugSize)} jug{Math.ceil(bleachVolume() / bleachJugSize) === 1 ? '' : 's'} of bleach.</div >
         </div>
     )
 
 }
+
+function Ph(props) {
+    const { poolVolume } = props;
+
+    return (
+        <div className="analysis">pH</div>
+
+    )
+}
+
+function TotalAlkalinity(props) {
+    const { poolVolume } = props;
+
+    return (
+        <div className="analysis">Total Alkalinity</div>
+
+    )
+}
+
+function CalciumHardnes(props) {
+    const { poolVolume } = props;
+
+    return (
+        <div className="analysis">Calcium Hardness</div>
+
+    )
+}
+
+function CYA(props) {
+    const { poolVolume } = props;
+
+    return (
+        <div className="analysis">Cyanuric Acid</div>
+
+    )
+}
+
+function Salt(props) {
+    const { poolVolume } = props;
+
+    return (
+        <div className="analysis">Salt</div>
+
+    )
+}
+
+function Temperature(props) {
+    const { poolVolume } = props;
+
+    return (
+        <div className="analysis">Temperature</div>
+
+    )
+}
+
+function CSI(props) {
+    const { poolVolume } = props;
+
+    return (
+        <div className="analysis">CSI</div>
+
+    )
+}
+
 function Pool() {
     const [poolVolume, setPoolVolume] = useState('10000');
     const [poolMaterial, setPoolMaterial] = useState('');
@@ -96,18 +162,13 @@ function Pool() {
     }
 
     return (
-        <div>
+        <div className="analysis">
             <label>Pool Volume:
                 <input
                     type='number'
                     name='Pool Volume'
                     value={poolVolume}
                     onChange={handleVolumeChange}
-                // onKeyDown={(event) => {
-                //     if (event.code === 'Enter') {
-                //         event.preventDefault()
-                //     }
-                // }}
                 />
             </label>
             <label form='pool-material'>Pool Material:</label>
@@ -117,6 +178,13 @@ function Pool() {
                 <option value="vinyl">vinyl</option>
             </select>
             < FreeChlorine poolVolume={poolVolume} />
+            < Ph poolVolume={poolVolume} />
+            < TotalAlkalinity poolVolume={poolVolume} />
+            < CalciumHardnes poolVolume={poolVolume} />
+            < CYA poolVolume={poolVolume} />
+            < Salt poolVolume={poolVolume} />
+            < Temperature poolVolume={poolVolume} />
+            < CSI poolVolume={poolVolume} />
         </div>
     )
 }
