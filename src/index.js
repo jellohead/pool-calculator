@@ -15,6 +15,7 @@ function FreeChlorine(props) {
 
 
     function handleChangeCurrentPPM(event) {
+        console.log(event);
         setCurrentPPM(event.target.value);
     }
 
@@ -77,7 +78,7 @@ function FreeChlorine(props) {
                     />
 
                 </div>
-                <div> Add {bleachVolume()} ounces of {bleachPercent}% bleach.</div>
+                <div> Add {bleachVolume()} oz. ounces of {bleachPercent}% bleach.</div>
             </div >
             {/* <div> You will need {numberOfJugs} jug{Math.ceil(bleachVolume() / bleachJugSize) === 1 ? '' : 's'} of bleach.</div > */}
             <div> You will need {Math.ceil(bleachVolume() / bleachJugSize)} jug{Math.ceil(bleachVolume() / bleachJugSize) === 1 ? '' : 's'} of bleach.</div >
