@@ -88,6 +88,9 @@ function FreeChlorine(props) {
 
 function Ph(props) {
     const { poolVolume } = props;
+    const [pHLowSpec, setPhLowSpec] = useState(7.2);
+    const [phHighSpec, setPhHighSpec] = useState(8.0);
+
 
     return (
         <div className="analysis">pH</div>
